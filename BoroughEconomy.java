@@ -1,14 +1,14 @@
 public class BoroughEconomy{
   private String name;
   private double rent;
-  private double materialCost;
+  private double economicFactor;
 
   public BoroughEconomy(){
-    this("None",1000.0,5.0);
+    this("None",1000.0, 1.0);
   }
-  public BoroughEconomy(String name, double rent, double materialCost){
+  public BoroughEconomy(String name, double rent, double economicFactor){
     this.name = name;
     this.rent = rent;
-    this.materialCost = materialCost;
+    this.economicFactor = economicFactor;
   }
 }
