@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class LaborMarket {
-    private BoroughEconomy boroughEconomy;
+    private Borough borough;
     private List<Worker> availableWorkers;
     private double marketTargetWage;   // theoretical mean: 14.5 * factor
     private double marketAverageWage;  // actual avg of generated desiredWage
@@ -9,8 +9,8 @@ public class LaborMarket {
     private static final String[] ROLES = {"Cook", "Waiter", "Janitor", "Cook", "Waiter"};
     private static final Random rand = new Random();
 
-    public LaborMarket(BoroughEconomy boroughEconomy) {
-        this.boroughEconomy = boroughEconomy;
+    public LaborMarket(Borough borough) {
+        this.borough = borough;
         this.availableWorkers = new ArrayList<>();
         this.marketTargetWage = 0.0;
         this.marketAverageWage = 0.0;
@@ -20,7 +20,7 @@ public class LaborMarket {
 
     private void generateWorkers() {
         availableWorkers.clear();
-        double factor = boroughEconomy.getEconomicFactor();
+        double factor = borough.getEconomicFactor();
 
         // Number of available workers = 10 * factor (at least 1)
         int numWorkers = Math.max(1, (int) Math.round(10 * factor));
@@ -29,7 +29,7 @@ public class LaborMarket {
         marketTargetWage = 14.5 * factor;
 
         for (int i = 0; i < numWorkers; i++) {
-            String name = boroughEconomy.getName() + "_Worker" + (i + 1);
+            String name = borough.getName() + "_Worker" + (i + 1);
             String role = ROLES[rand.nextInt(ROLES.length)];
 
             // desired wage: normal dist centered on marketTargetWage, stddev ~2.0
@@ -83,7 +83,6 @@ public class LaborMarket {
     public Worker hireWorker() {
         if (availableWorkers.isEmpty()) return null;
         Worker hired = availableWorkers.remove(0);
-        // recompute average after hire
         calculateAverageWage();
         return hired;
     }
